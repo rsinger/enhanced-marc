@@ -1,7 +1,7 @@
 Enhanced MARC is a set of classes, modules and methods that sit on top of ruby-marc (http://rubyforge.org/projects/marc) to help parse MARC records more easily and conveniently.
 Installation:
   gem sources -a http://gems.github.com
-  sudo gem install rsinger-enhanced-marc
+  sudo gem install rsinger-enhanced_marc
   
 Usage:
 
