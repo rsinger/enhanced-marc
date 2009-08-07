@@ -1,0 +1,1 @@
+Enhanced MARC is a set of classes, modules and methods that sit on top of ruby-marc to help parse MARC records more easily and conveniently.

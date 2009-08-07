@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.description = 'A set of enhancements to ruby-marc to make parsing MARC data easier'
   s.files = Dir.glob("{lib,test}/**/*") + ["Rakefile", "README", "Changes",
     "LICENSE"]
-  s.require_path = 'enhanced_marc'
+  s.require_path = 'lib'
   s.has_rdoc = true
   s.required_ruby_version = '>= 1.8.6'
   
