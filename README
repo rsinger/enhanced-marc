@@ -1,1 +1,50 @@
-Enhanced MARC is a set of classes, modules and methods that sit on top of ruby-marc to help parse MARC records more easily and conveniently.
+Enhanced MARC is a set of classes, modules and methods that sit on top of ruby-marc (http://rubyforge.org/projects/marc) to help parse MARC records more easily and conveniently.
+Installation:
+  sudo gem install rsinger-enhanced_marc
+  
+Usage:
+
+  require 'enhanced_marc'
+  
+  reader = MARC::Reader.new('marc.dat')
+  
+  records = []
+  
+  reader.each do | record |
+    records << record
+  end
+  
+  >> records[0].class
+  => MARC::BookRecord
+  
+  >> records[0].is_conference?
+  => false
+  
+  >> records[0].is_manuscript?
+  => false
+  
+  # Send a boolean true if you want human readable forms, rather than MARC codes.
+  >> records[0].literary_form(true)
+  => "Non-fiction"
+  
+  >> records[0].nature_of_contents(true)
+  => ["Bibliography", "Catalog"]
+  
+  >> records[1].class
+  => MARC::SoundRecord
+  
+  >> records[1].composition_form(true)
+  => "Jazz"
+  
+  >> records[2].class
+  => MARC::MapRecord
+  
+  >> records[2].projection(true)
+  => ["Cylindrical", "Mercator"]
+  
+  >> records[2].relief(true)
+  => ["Color"]
+  
+  
+  
+  

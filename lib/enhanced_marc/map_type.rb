@@ -40,7 +40,7 @@ module MapType
     return contents        
   end
   
-  def projection(human_relief=false)
+  def projection(human_readable=false)
     proj_map = {'Azimuthal'=>{'aa'=>'Aitoff','ab'=>'Gnomic','ac'=>"Lambert's equal area",
                               'ad'=>'Orthographic','ae'=>'Azithumal equidistant', 'af'=>'Stereographic',
                               'ag'=>'General vertical near-sided','am'=>'Modified stereographic for Alaska',
