@@ -147,9 +147,9 @@ module RecordType
     end
     unless self['008'].value[idx,1] == ' '
       if human_readable
-        return form_map[char]
+        return form_map[self['008'].value[idx,1]]
       else
-        return char
+        return self['008'].value[idx,1]
       end
     end
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
