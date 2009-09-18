@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{enhanced_marc}
-  s.version = "0.1.2"
+  s.version = "0.1.3"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ross Singer"]
-  s.date = %q{2009-09-17}
+  s.date = %q{2009-09-18}
   s.description = %q{A set of enhancements to ruby-marc to make parsing MARC data easier}
   s.email = %q{rossfsinger@gmail.com}
   s.extra_rdoc_files = [
@@ -23,6 +23,7 @@ Gem::Specification.new do |s|
      "Rakefile",
      "VERSION",
      "enhanced_marc-0.1.gem",
+     "enhanced_marc.gemspec",
      "lib/enhanced_marc.rb",
      "lib/enhanced_marc/book_record.rb",
      "lib/enhanced_marc/book_type.rb",
