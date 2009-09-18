@@ -40,7 +40,7 @@ module BookType
   def is_biography?(human_readable=false)
     biog_map = {'a'=>'Autobiography', 'b'=>'Individual biography',
      'c'=>'Collective biography', 'd'=>'Contains biographical information'}
-    human_readable = lit_map if human_readable
+    human_readable = biog_map if human_readable
     return self.field_parser({:match=>'BKS', :start=>34,:end=>1}, {:match=>/[at]{1}/, :start=>17,:end=>1}, human_readable)               
   end    
   
