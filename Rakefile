@@ -27,6 +27,7 @@ begin
   Jeweler::Tasks.new do |s|
     
     s.add_dependency('marc')
+    s.add_dependency('locale')
     s.name = 'enhanced_marc'
     s.author = 'Ross Singer'
     s.email = 'rossfsinger@gmail.com'

@@ -4,16 +4,20 @@ module MARC
     # format into a MARC::Record object.
     def self.decode(marc, params={})
       leader = Leader.new(marc[0..LEADER_LENGTH-1])
-      record = case leader.get_type
-        when 'BKS' then MARC::BookRecord.new
-        when 'SER' then MARC::SerialRecord.new
-        when 'VIS' then MARC::VisualRecord.new
-        when 'MIX' then MARC::MixedRecord.new
-        when 'MAP' then MARC::MapRecord.new
-        when 'SCO' then MARC::ScoreRecord.new
-        when 'REC' then MARC::SoundRecord.new
-        when 'COM' then MARC::ComputerRecord.new
-        else MARC::Record.new
+      begin
+        record = case leader.get_type
+          when 'BKS' then MARC::BookRecord.new
+          when 'SER' then MARC::SerialRecord.new
+          when 'VIS' then MARC::VisualRecord.new
+          when 'MIX' then MARC::MixedRecord.new
+          when 'MAP' then MARC::MapRecord.new
+          when 'SCO' then MARC::ScoreRecord.new
+          when 'REC' then MARC::SoundRecord.new
+          when 'COM' then MARC::ComputerRecord.new
+          else MARC::Record.new
+        end
+      rescue ArgumentError
+        record = MARC::Record.new
       end
       record.leader = leader
 

@@ -15,7 +15,8 @@ module RecordType
       'j'=>'Patent document', 'k'=>'Discography', 'l'=>'Legislation', 'm'=>'Thesis', 'n'=>'Literature survey',
       'o'=>'Review', 'p'=>'Programmed text', 'q'=>'Filmography', 'r'=>'Directory', 's'=>'Statistics', 
       't'=>'Technical report', 'u'=>'Standard/specification', 'v'=>'Legal case', 'w'=>'Law report', 'x'=>'Other report',
-      'z'=>'Treaty'}
+      'y'=>'Yearbook', 'z'=>'Treaty', '2'=>'Offprint', '5'=>'Calendar', '6'=>'Comic/Graphic Novel'}
+      
     contents = []
     idx = nil
     if self.record_type == 'BKS'
@@ -29,7 +30,7 @@ module RecordType
       self['008'].value[idx,len].split(//).each { | char | 
         next if char == " "
         if human_readable
-          contents << cont_map[char]
+          contents << cont_map[char] if cont_map[char]
         else
           contents << char
         end
@@ -48,7 +49,7 @@ module RecordType
         fxd_fld.value[idx,len].split(//).each { | char | 
           next if char == " "
           if human_readable
-            contents << cont_map[char]
+            contents << cont_map[char] if cont_map[char]
           else
             contents << char
           end
@@ -95,8 +96,8 @@ module RecordType
   def accompanying_matter(human_readable=false)
     accm_map = {'a'=>'Discography','b'=>'Bibliography','c'=>'Thematic index','d'=>'Libretto',
       'e'=>'Composer biography', 'f'=>'Performer biography', 'g'=>'Technical/historical information on instruments', 
-      'h'=>'Technical information on music', 'i'=>'Historical information',
-      'k'=>'Ethnological information', 'r'=>'Instructional materials', 's'=>'Music', 
+      'h'=>'Technical information on music', 'i'=>'Historical information', 'j'=>'Historical information other than music',
+      'k'=>'Ethnological information', 'n'=>'Not applicable', 'r'=>'Instructional materials', 's'=>'Music', 
       'z'=>'Other accompanying matter'}
       matter = []
 
@@ -104,7 +105,7 @@ module RecordType
       self['008'].value[24,6].split(//).each { | char | 
         next if char == " "
         if human_readable
-          matter << accm_map[char]
+          matter << accm_map[char] if accm_map[char]
         else
           matter << char
         end

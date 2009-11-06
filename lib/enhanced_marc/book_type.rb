@@ -56,14 +56,15 @@ module BookType
   def is_illustrated?(human_readable=false)
     ills_map = {'a'=>'Illustrations','b'=>'Maps','c'=>'Portraits','d'=>'Charts',
       'e'=>'Plans', 'f'=>'Plates', 'g'=>'Music', 'h'=>'Facsimilies', 'i'=>'Coats of arms',
-      'j'=>'Genealogical tables', 'k'=>'Forms', 'j'=>'Genealogical tables', 'k'=>'Forms', 'l'=>'Samples',
+      'j'=>'Genealogical tables', 'k'=>'Forms', 'l'=>'Samples',
       'm'=>'Phonodisc', 'o'=>'Photographs', 'p'=>'Illuminations'}
+      
     contents = []
     if self.record_type == 'BKS'
       self['008'].value[18,4].split(//).each { | char | 
         next if char == " "
         if human_readable
-          contents << ills_map[char]
+          contents << ills_map[char] if ills_map[char]
         else
           contents << char
         end
@@ -74,7 +75,7 @@ module BookType
       fxd_fld.value[1,4].split(//).each { | char | 
         next if char == " "
         if human_readable
-          contents << ills_map[char]
+          contents << ills_map[char] if ills_map[char]
         else
           contents << char
         end
