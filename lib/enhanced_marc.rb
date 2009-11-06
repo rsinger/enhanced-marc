@@ -1,4 +1,5 @@
 require 'marc'
+require 'locale/info'
 require 'enhanced_marc/reader'
 require 'enhanced_marc/record'
 require 'enhanced_marc/xmlreader'
