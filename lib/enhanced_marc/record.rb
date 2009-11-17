@@ -49,7 +49,7 @@ module MARC
     
     
     def publication_country
-      return self['008'].value[15,3] unless self['008'].value[15,3] == '  '
+      return self['008'].value[15,3].strip unless self['008'].value[15,3] == '  '
       return false
     end
     
