@@ -138,7 +138,8 @@ module RecordType
   
   def form(human_readable=false)
     form_map = {'a'=>'Microfilm', 'b'=>'Microfiche', 'c'=>'Microopaque',
-      'd'=>'Large print', 'f'=>'Braille', 'r'=>'Reproduction', 's'=>'Electronic'
+      'd'=>'Large print', 'f'=>'Braille', 'o'=>'Online', 'q'=>'Direct Electronic',
+      'r'=>'Reproduction', 's'=>'Electronic'
     }
     idx = nil
     if self.record_type.match(/^MAP$|^VIS$/)

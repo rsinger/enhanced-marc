@@ -6,7 +6,7 @@ module MARC
     # Creates a new MARC::Record using MARC::Leader
     # to work with the leader, rather than a string
     def initialize
-      @fields = []
+      super
       @leader = Leader.new(' ' * 24) 
     end
             
