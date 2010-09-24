@@ -97,7 +97,7 @@ module MARC
           record.append(field)
         end
       end
-
+      record.fields.reindex
       return record
     end
 
