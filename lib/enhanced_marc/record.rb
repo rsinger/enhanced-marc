@@ -86,13 +86,17 @@ module MARC
       unless self['008'].value[35,3].empty?
         languages << Locale::Info.get_language(self['008'].value[35,3])
       end
-      @fields.each_by_tag("041").each do | oh_four_one |
+      @fields.each_by_tag("041") do | oh_four_one |
         langs = oh_four_one.find_all { |sub| sub.code == 'a'}
         langs.each do | lang |
-          languages << Locale::Info.get_language(lang.value)
+          i = 0
+          while (i + 3) <= lang.value.length
+            languages << Locale::Info.get_language(lang.value[i,3])
+            i += 3
+          end
         end
       end
-      languages
+      languages.uniq
     end        
   end
 end
