@@ -91,7 +91,8 @@ module MARC
         langs.each do | lang |
           i = 0
           while (i + 3) <= lang.value.length
-            languages << Locale::Info.get_language(lang.value[i,3])
+            language = Locale::Info.get_language(lang.value[i,3])
+            languages << language if language
             i += 3
           end
         end
