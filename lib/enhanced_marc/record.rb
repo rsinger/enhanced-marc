@@ -84,7 +84,8 @@ module MARC
     def languages
       languages = []
       unless self['008'].value[35,3].empty?
-        languages << Locale::Info.get_language(self['008'].value[35,3])
+        language = Locale::Info.get_language(self['008'].value[35,3])
+        languages << language if language
       end
       @fields.each_by_tag("041") do | oh_four_one |
         langs = oh_four_one.find_all { |sub| sub.code == 'a'}
