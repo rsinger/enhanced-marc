@@ -5,7 +5,7 @@
 
 Gem::Specification.new do |s|
   s.name = %q{enhanced_marc}
-  s.version = "0.2.1"
+  s.version = "0.2.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ross Singer"]
@@ -22,7 +22,6 @@ Gem::Specification.new do |s|
      "README",
      "Rakefile",
      "VERSION",
-     "enhanced_marc-0.1.gem",
      "enhanced_marc.gemspec",
      "lib/enhanced_marc.rb",
      "lib/enhanced_marc/book_record.rb",
@@ -47,15 +46,6 @@ Gem::Specification.new do |s|
      "lib/enhanced_marc/visual_record.rb",
      "lib/enhanced_marc/visual_type.rb",
      "lib/enhanced_marc/xmlreader.rb",
-     "pkg/enhanced_marc-0.1.5.gem",
-     "pkg/enhanced_marc-0.1.gem",
-     "pkg/enhanced_marc-0.1.tgz",
-     "pkg/enhanced_marc-0.1.zip",
-     "pkg/enhanced_marc-0.1/Changes",
-     "pkg/enhanced_marc-0.1/LICENSE",
-     "pkg/enhanced_marc-0.1/README",
-     "pkg/enhanced_marc-0.1/Rakefile",
-     "pkg/enhanced_marc-0.1/test/ts_enhanced_marc.rb",
      "test/ts_enhanced_marc.rb"
   ]
   s.homepage = %q{http://github.com/rsinger/enhanced-marc/tree}
