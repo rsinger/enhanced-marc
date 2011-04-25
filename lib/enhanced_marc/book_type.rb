@@ -7,7 +7,7 @@ module BookType
   def is_manuscript?
     return true if @leader[6,1] == 't'
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
-      return true if fxd_fld[0,1] == 't'
+      return true if fxd_fld.value[0,1] == 't'
     }       
     return false
   end
