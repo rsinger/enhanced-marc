@@ -2,7 +2,7 @@ module MARC
   
   # A class for accessing the MARC Leader
   class Leader < String
-    attr_reader :leader, :record_type, :bibliographic_level, :encoding_level, :fixed_fields
+    attr_reader :leader, :fixed_fields
     def initialize(leader)
       super  
       # leader defaults:
@@ -11,27 +11,22 @@ module MARC
       self[20..23] = '4500'           
     end
     
-    def parse_leader
-      self.get_type
-      self.get_blvl
-      self.get_elvl
-    end
-    
     def get_type_code
-      return self[6,1]    
+      self[6,1]    
     end
     
     def get_blvl_code
-      return self[7,1]
+      self[7,1]
     end
     
     def get_type
-      return @record_type = self.type_translator(self.get_type_code, self.get_blvl_code)
+      self.type_translator(self.get_type_code, self.get_blvl_code)
     end
+    alias_method :record_type, :get_type
     
     def is_archival?
       return true if self[8,1] == 'a'
-      return false
+      false
     end
 
     def get_blvl
@@ -44,8 +39,9 @@ module MARC
         'm'=>'Monograph/Item',
         's'=>'Serial'
       }
-      return @bibliographic_level = blvls[self.get_blvl_code]
+      blvls[self.get_blvl_code]
     end
+    alias_method :bibliographic_level, :get_blvl
 
     def set_type(type)
       if type.length == 1
@@ -82,11 +78,11 @@ module MARC
         return type if type_code.match(rec_types[type][:type]) and blvl_code.match(rec_types[type][:blvl])
       } 
       raise ArgumentError, "Invalid BLvl!"
-      return nil
+      nil
     end
     
     def get_elvl_code
-      return self[17,1]
+      self[17,1]
     end
     
     def get_elvl
@@ -106,27 +102,20 @@ module MARC
         'E'=>'System-identified MARC error in batchloaded record',
         'J'=>'Deleted record'
       }
-      return @encoding_level = elvls[self.get_elvl_code]
+      elvls[self.get_elvl_code]
     end
-    
-    def ELvl
-      self.get_elvl unless @encoding_level
-      return @encoding_level
-    end
+    alias_method :encoding_level, :get_elvl
+    alias_method :ELvl, :get_elvl
     
     def get_desc_code
-      return self[18,1]
+      self[18,1]
     end
     
     def get_desc
       codes = {' '=>'Non-ISBD', 'a'=>'AACR2', 'i'=>'ISBD', 'u'=>'Unknown'}
-      return @descriptive_cataloging_form = codes[self.get_desc_code]      
+      codes[self.get_desc_code]      
     end
-    
-    def Desc
-      self.get_desc unless @descriptive_cataloging_form
-      return @descriptive_cataloging_form
-    end
-    
+    alias_method :descriptive_cataloging_form, :get_desc
+    alias_method :Desc, :get_desc
   end
 end

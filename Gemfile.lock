@@ -1,0 +1,21 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    locale (2.1.2)
+    marc (1.0.0)
+      scrub_rb (>= 1.0.1, < 2)
+      unf
+    scrub_rb (1.0.1)
+    unf (0.1.4)
+      unf_ext
+    unf_ext (0.0.7.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  locale
+  marc
+
+BUNDLED WITH
+   1.13.6
