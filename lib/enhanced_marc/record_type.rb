@@ -1,22 +1,30 @@
 module RecordType
-  
+
   private
-  
-  def is_govdoc?(human_readable=false)
-    govdoc_map={'a'=>'Autonomous or semiautonomous components', 'c'=>'Multilocal', 'f'=>'Federal',
-      'i'=>'International', 'l'=>'Local', 'm'=>'Multistate', 'o'=>'Undetermined', 's'=>'State', 'u'=>'Unknown', 'z'=>'Other'}
+
+  def is_govdoc?(human_readable = false)
+    govdoc_map = {
+      'a' => 'Autonomous or semiautonomous components', 'c' => 'Multilocal',
+      'f' => 'Federal', 'i' => 'International', 'l' => 'Local',
+      'm' => 'Multistate', 'o' => 'Undetermined', 's' => 'State',
+      'u' => 'Unknown', 'z' => 'Other'
+    }
     human_readable = govdoc_map if human_readable
-    return self.field_parser({:match=>/^BKS$|^COM$|^MAP$|^SER$|^VIS$/, :start=>28,:end=>1}, {:match=>/[atmefsgkor]{1}/, :start=>11,:end=>1}, human_readable)
-  end    
-  
+    field_parser(
+      { match: /^BKS$|^COM$|^MAP$|^SER$|^VIS$/, start: 28, end: 1 },
+      { match: /[atmefsgkor]{1}/, start: 11, end: 1 },
+      human_readable
+    )
+  end
+
   def nature_of_contents(human_readable=false)
     cont_map = {'a'=>'Abstracts','b'=>'Bibliography','c'=>'Catalog','d'=>'Dictionary',
       'e'=>'Encyclopedia', 'f'=>'Handbook', 'g'=>'Legal article', 'h'=>'Biography', 'i'=>'Index',
       'j'=>'Patent document', 'k'=>'Discography', 'l'=>'Legislation', 'm'=>'Thesis', 'n'=>'Literature survey',
-      'o'=>'Review', 'p'=>'Programmed text', 'q'=>'Filmography', 'r'=>'Directory', 's'=>'Statistics', 
+      'o'=>'Review', 'p'=>'Programmed text', 'q'=>'Filmography', 'r'=>'Directory', 's'=>'Statistics',
       't'=>'Technical report', 'u'=>'Standard/specification', 'v'=>'Legal case', 'w'=>'Law report', 'x'=>'Other report',
       'y'=>'Yearbook', 'z'=>'Treaty', '2'=>'Offprint', '5'=>'Calendar', '6'=>'Comic/Graphic Novel'}
-      
+
     contents = []
     idx = nil
     if self.record_type == 'BKS'
@@ -27,7 +35,7 @@ module RecordType
       len = 3
     end
     if idx
-      self['008'].value[idx,len].split(//).each { | char | 
+      self['008'].value[idx,len].split(//).each { | char |
         next if char == " "
         if human_readable
           contents << cont_map[char] if cont_map[char]
@@ -44,9 +52,9 @@ module RecordType
       elsif fxd_fld.value[0,1].match('s')
         idx = 8
         len = 3
-      end     
-      if idx 
-        fxd_fld.value[idx,len].split(//).each { | char | 
+      end
+      if idx
+        fxd_fld.value[idx,len].split(//).each { | char |
           next if char == " "
           if human_readable
             contents << cont_map[char] if cont_map[char]
@@ -55,23 +63,23 @@ module RecordType
           end
         }
       end
-    }       
+    }
     return false if contents.empty?
-    return contents      
+    return contents
   end
-  
+
 
   def is_conference?
-    return true if self['008'].value[29,1] == '1' && @record_type.match(/^BKS$|^SER$/)      
-    return true if self['008'].value[30,2].match(/c/) && @record_type.match(/^SCO$|^REC$/) 
+    return true if self['008'].value[29,1] == '1' && @record_type.match(/^BKS$|^SER$/)
+    return true if self['008'].value[30,2].match(/c/) && @record_type.match(/^SCO$|^REC$/)
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
       return true if fxd_fld.value[12,1] == '1' && fxd_fld.value[0,1].match(/[ats]{1}/)
 
       return true if fxd_fld.value[13,2].match(/c/) && fxd_fld.value[0,1].match(/[cdij]{1}/)
-    }      
-    return false  
+    }
+    return false
   end
-  
+
   def set_conference(value=false, field=nil)
     if field
       return Exception.new("Field is not an 006") unless field.tag == '006'
@@ -81,7 +89,7 @@ module RecordType
       else
         field.value[12] = '0'
       end
-    else  
+    else
       field = @fields['008']
       field = MARC::Controlfield.new('008') unless field
       if value
@@ -89,20 +97,20 @@ module RecordType
       else
         field[29] = '0'
       end
-    end    
-    
-  end  
-  
+    end
+
+  end
+
   def accompanying_matter(human_readable=false)
     accm_map = {'a'=>'Discography','b'=>'Bibliography','c'=>'Thematic index','d'=>'Libretto',
-      'e'=>'Composer biography', 'f'=>'Performer biography', 'g'=>'Technical/historical information on instruments', 
+      'e'=>'Composer biography', 'f'=>'Performer biography', 'g'=>'Technical/historical information on instruments',
       'h'=>'Technical information on music', 'i'=>'Historical information', 'j'=>'Historical information other than music',
-      'k'=>'Ethnological information', 'n'=>'Not applicable', 'r'=>'Instructional materials', 's'=>'Music', 
+      'k'=>'Ethnological information', 'n'=>'Not applicable', 'r'=>'Instructional materials', 's'=>'Music',
       'z'=>'Other accompanying matter'}
       matter = []
 
       if ['SCO', 'REC'].index(@record_type)
-      self['008'].value[24,6].split(//).each { | char | 
+      self['008'].value[24,6].split(//).each { | char |
         next if char == " "
         if human_readable
           matter << accm_map[char] if accm_map[char]
@@ -112,9 +120,9 @@ module RecordType
       }
     end
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
-  
+
       if fxd_fld.value[0,1].match(/[cdij]{1}/)
-        fxd_fld.value[7,6].split(//).each { | char | 
+        fxd_fld.value[7,6].split(//).each { | char |
           next if char == " "
           if human_readable
             matter << accm_map[char]
@@ -123,19 +131,19 @@ module RecordType
           end
         }
       end
-    }       
+    }
     return false if matter.empty?
-    return matter          
-  end  
-  
+    return matter
+  end
+
   def audience_level(human_readable=false)
     audn_map = {'a'=>'Preschool', 'b'=>'Children age 6-8', 'c'=>'Children age 9-13',
       'd'=>'Adolescent', 'e'=>'Adult', 'f'=>'Specialized', 'g'=>'General', 'j'=>'Juvenile'
       }
     human_readable = audn_map if human_readable
     return self.field_parser({:match=>/^BKS$|^VIS$|^MIX$|^MAP$|^SCO$|^REC$|^COM$/, :start=>22,:end=>1}, {:match=>/[atmefpcdijgkor]{1}/, :start=>5,:end=>1}, human_readable)
-  end  
-  
+  end
+
   def form(human_readable=false)
     form_map = {'a'=>'Microfilm', 'b'=>'Microfiche', 'c'=>'Microopaque',
       'd'=>'Large print', 'f'=>'Braille', 'o'=>'Online', 'q'=>'Direct Electronic',
@@ -160,25 +168,25 @@ module RecordType
         idx = 6
       else
         idx = 12
-      end     
-      next if fxd_fld.value[idx,1] == ' '        
+      end
+      next if fxd_fld.value[idx,1] == ' '
       if human_readable
         return form_map[fxd_fld.value[idx,1]]
       else
         return fxd_fld.value[idx,1]
-      end        
-    }       
+      end
+    }
     return false
   end
-  
+
   def has_index?
-    return true if self['008'].value[31,1] == '1'      
+    return true if self['008'].value[31,1] == '1'
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
       return true if fxd_fld.value[14,1] == '1'
-    }      
-    return false      
+    }
+    return false
   end
-  
+
   def composition_form(human_readable=false)
     comp_map = {'an'=>'Anthem','bd'=>'Ballad','bt'=>'Ballet','bg'=>'Bluegrass music',
       'bl'=>'Blues','cn'=>'Canon or round','ct'=>'Catata','cz'=>'Canzona','cr'=>'Carol',
@@ -194,7 +202,7 @@ module RecordType
       'rg'=>'Ragtime music','rq'=>'Requiem','rp'=>'Rhapsody','ri'=>'Ricercars','rc'=>'Rock music',
       'rd'=>'Rondo','sn'=>'Sonata','sg'=>'Song','sd'=>'Square dance music','st'=>'Study/exercise',
       'su'=>'Suite','sp'=>'Symphonic poem','sy'=>'Symphony','tc'=>'Toccata','ts'=>'Trio-sonata',
-      'uu'=>'Unknown','vr'=>'Variation','wz'=>'Waltz','zz'=>'Other'      
+      'uu'=>'Unknown','vr'=>'Variation','wz'=>'Waltz','zz'=>'Other'
       }
     if @record_type.match(/^SCO$|^REC$/)
       unless self['008'].value[18,2] == '  '
@@ -214,54 +222,35 @@ module RecordType
           return fxd_fld.value[1,2]
         end
       end
-    }       
-    return false      
+    }
+    return false
   end
-  
+
   def music_format(human_readable=false)
     fmus_map = {'a'=>'Full score','b'=>'Full score, miniature/study size','c'=>'Accompaniment reduced for keyboard',
       'd'=>'Voice score','e'=>'Condensed score','g'=>'Close score','m'=>'Multiple formats','n'=>'N/A',
       'u'=>'Unknown','z'=>'Other'}
     human_readable = fmus_map if human_readable
     return self.field_parser({:match=>/^SCO$|^REC$/, :start=>20,:end=>1}, {:match=>/[cdij]{1}/, :start=>3,:end=>1}, human_readable)
-#    if self.record_type.match(/^SCO$|^REC$/)
-#      unless self['008'].value[20,1] == ' '
-#        if human_readable
-#          return fmus_map[self['008'].value[20,1]]
-#        else
-#          return self['008'].value[20,1]
-#        end
-#      end
-#    end
-##    @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
- #     next unless fxd_fld.value[0,1].match(/[cdij]{1}/)   
-#      next if fxd_fld.value[3,1] == ' '        
-#      if human_readable
-#        return fmus_map[fxd_fld.value[3,1]]
-#      else
-#        return fxd_fld.value[3,1]
-#      end        
- #   }       
- #   return false
   end
-  
+
   def has_index?
-    return true if self['008'].value[31,1] == '1'      
+    return true if self['008'].value[31,1] == '1'
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
       return true if fxd_fld.value[14,1] == '1'
-    }      
-    return false            
+    }
+    return false
   end
-  
+
   def literary_text(human_readable=true)
     ltxt_map = {'a'=>'Autobiography', 'b'=>'Biography','c'=>'Conference proceeding','d'=>'Drama',
       'e'=>'Essay','f'=>'Fiction','g'=>'Reporting','h'=>'History','i'=>'Instruction','j'=>'Language instruction',
       'k'=>'Comedy','l'=>'Lecture/speech','m'=>'Memoir','n'=>'N/A','o'=>'Folktale','p'=>'Poetry','r'=>'Rehearsal',
       's'=>'Sounds','t'=>'Interview','z'=>'Other'}
       txts = []
-      
+
       if ['SCO', 'REC'].index(@record_type)
-      self['008'].value[30,2].split(//).each { | char | 
+      self['008'].value[30,2].split(//).each { | char |
         next if char == " "
         if human_readable
           txts << ltxt_map[char]
@@ -271,9 +260,9 @@ module RecordType
       }
     end
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
-  
+
       if fxd_fld.value[0,1].match(/[cdij]{1}/)
-        fxd_fld.value[13,2].split(//).each { | char | 
+        fxd_fld.value[13,2].split(//).each { | char |
           next if char == " "
           if human_readable
             txts << ltxt_map[char]
@@ -282,30 +271,30 @@ module RecordType
           end
         }
       end
-    }       
+    }
     return false if txts.empty?
-    return txts          
+    return txts
   end
   protected
-  def field_parser(eight, six, human_readable_map=nil)
+  def field_parser(eight, six, human_readable_map = nil)
     if self.record_type.match(eight[:match])
-      unless self['008'].value[eight[:start],eight[:end]] == ' '*eight[:end]
+      if self['008'].value[eight[:start], eight[:end]] !~ /[\s\\|]{#{eight[:end]}}/
         if human_readable_map
-          return human_readable_map[self['008'].value[eight[:start],eight[:end]]]
+          return human_readable_map[self['008'].value[eight[:start], eight[:end]]]
         else
-          return self['008'].value[eight[:start],eight[:end]]
+          return self['008'].value[eight[:start], eight[:end]]
         end
       end
     end
     @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
-      next unless fxd_fld.value[0,1].match(six[:match])   
-      next if fxd_fld.value[six[:start],six[:end]] == ' '*six[:end]
+      next unless fxd_fld.value[0,1].match(six[:match])
+      next if fxd_fld.value[six[:start], six[:end]] =~ /[\s\\|]{#{six[:end]}}/
       if human_readable_map
         return human_readable_map[fxd_fld.value[six[:start],six[:end]]]
       else
-        return fxd_fld.value[six[:start],six[:end]]
-      end        
-    }       
-    return false  
+        return fxd_fld.value[six[:start], six[:end]]
+      end
+    }
+    return false
   end
 end
