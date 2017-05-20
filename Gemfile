@@ -5,5 +5,5 @@ gem 'marc'
 gem 'locale'
 
 group :test do
-    gem 'rspec'
+  gem 'rspec'
 end
