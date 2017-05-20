@@ -1,37 +1,42 @@
 module MARC
 
   # A class that represents an individual MARC record. Every record
-  # is made up of a collection of MARC::Field objects. 
-
+  # is made up of a collection of MARC::Field objects.
   class ComputerRecord < Record
-    
+
     def initialize
       super
       @leader[6] = 'm' if @leader[6,1] == ' '
-      @leader[7] = 'm' if @leader[7,1] == ' '    
-      @record_type = 'COM'  
+      @leader[7] = 'm' if @leader[7,1] == ' '
+      @record_type = 'COM'
       @bibliographic_level = @leader.get_blvl
-      self.extend ComputerType      
-      self.inspect_fixed_fields      
+      extend ComputerType
+      inspect_fixed_fields
     end
-    
-    def is_valid_type?
-      return false unless @leader[6,1].match('m')
-      return true
+
+    def valid_type?
+      return false unless @leader[6, 1] == 'm'
+      true
     end
-    def is_valid_blvl?
-      return false unless @leader[7,1].match(/[abcdims]{1}/)
-      return true
+    alias is_valid_type? valid_type?
+
+    def valid_blvl?
+      return false unless @leader[7, 1] =~ /[abcdims]{1}/
+      true
     end
+    alias is_valid_blvl? valid_blvl?
+
     def self.new_from_record(record)
       rec = ComputerRecord.new
-      record.instance_variables.each { | var |
+      record.instance_variables.each do |var|
         rec.instance_variable_set(var, record.instance_variable_get(var))
-      }
-      return Exception.new("Incorrect type declaration in leader") unless rec.is_valid_type?
-      return Exception.new("Incorrect bibliographic declaration in leader") unless rec.is_valid_blvl?
-      return rec
-    end    
-    
+      end
+      error = rec.valid_type? ? nil : 'Incorrect type declaration in leader'
+      if !error && !rec.valid_blvl?
+        error = 'Incorrect bibliographic declaration in leader'
+      end
+      return Exception.new(error) if error
+      rec
+    end
   end
 end

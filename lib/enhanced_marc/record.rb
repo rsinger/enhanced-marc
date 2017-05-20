@@ -1,7 +1,7 @@
 module MARC
   class Record
     
-    attr_reader :record_type, :bibliographic_level
+    attr_reader :record_type
     
     # Creates a new MARC::Record using MARC::Leader
     # to work with the leader, rather than a string
@@ -33,7 +33,7 @@ module MARC
         when 'SCO' then MARC::ScoreRecord.new_from_record(record)                
         when 'REC' then MARC::SoundRecord.new_from_record(record)                
         when 'COM' then MARC::ComputerRecord.new_from_record(record)                
-      end      
+      end
       typed_record.fields.reindex
       typed_record
     end    
@@ -50,6 +50,9 @@ module MARC
     def composition_form(human_readable=false)
     end
     
+    def bibliographic_level
+      @leader.get_blvl
+    end
     
     def publication_country
       return self['008'].value[15,3].strip unless self['008'].value[15,3] == '  '

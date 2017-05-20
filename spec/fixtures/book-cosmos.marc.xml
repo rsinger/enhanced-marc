@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?><record xmlns="http://www.loc.gov/MARC21/slim" xmlns:cinclude="http://apache.org/cocoon/include/1.0" xmlns:zs="http://www.loc.gov/zing/srw/">
+  <leader>01337cam a2200289 a 4500</leader>
+  <controlfield tag="001">12759891</controlfield>
+  <controlfield tag="005">20060601130236.0</controlfield>
+  <controlfield tag="008">020430r20021980nyuab    b    001 0 eng  </controlfield>
+  <datafield tag="906" ind1=" " ind2=" ">
+    <subfield code="a">7</subfield>
+    <subfield code="b">cbc</subfield>
+    <subfield code="c">orignew</subfield>
+    <subfield code="d">1</subfield>
+    <subfield code="e">ocip</subfield>
+    <subfield code="f">20</subfield>
+    <subfield code="g">y-gencatlg</subfield>
+  </datafield>
+  <datafield tag="925" ind1="0" ind2=" ">
+    <subfield code="a">acquire</subfield>
+    <subfield code="b">2 shelf copies</subfield>
+    <subfield code="x">policy default</subfield>
+  </datafield>
+  <datafield tag="955" ind1=" " ind2=" ">
+    <subfield code="a">pc03 2002-04-30 to ASCD</subfield>
+    <subfield code="c">jp25 2002-05-01 to subj</subfield>
+    <subfield code="d">jp99 2002-05-01</subfield>
+    <subfield code="e">jp05 2002-05-02 to Dewey</subfield>
+    <subfield code="a">aa01 2002-05-03</subfield>
+    <subfield code="a">ps10 2004-03-11 1 copy rec'd., to CIP ver.</subfield>
+    <subfield code="a">jp00 2004-03-16</subfield>
+    <subfield code="f">jp20 2004-03-18 to SL</subfield>
+    <subfield code="g">jp18 2004-03-23 to BCCD</subfield>
+  </datafield>
+  <datafield tag="010" ind1=" " ind2=" ">
+    <subfield code="a">  2002069744</subfield>
+  </datafield>
+  <datafield tag="020" ind1=" " ind2=" ">
+    <subfield code="a">0375508325 (acid-free paper)</subfield>
+  </datafield>
+  <datafield tag="040" ind1=" " ind2=" ">
+    <subfield code="a">DLC</subfield>
+    <subfield code="c">DLC</subfield>
+    <subfield code="d">DLC</subfield>
+  </datafield>
+  <datafield tag="050" ind1="0" ind2="0">
+    <subfield code="a">QB44.3</subfield>
+    <subfield code="b">.S34 2002</subfield>
+  </datafield>
+  <datafield tag="082" ind1="0" ind2="0">
+    <subfield code="a">520</subfield>
+    <subfield code="2">21</subfield>
+  </datafield>
+  <datafield tag="100" ind1="1" ind2=" ">
+    <subfield code="a">Sagan, Carl,</subfield>
+    <subfield code="d">1934-1996.</subfield>
+  </datafield>
+  <datafield tag="245" ind1="1" ind2="0">
+    <subfield code="a">Cosmos /</subfield>
+    <subfield code="c">Carl Sagan.</subfield>
+  </datafield>
+  <datafield tag="250" ind1=" " ind2=" ">
+    <subfield code="a">Random House, Inc., 2002 ed.</subfield>
+  </datafield>
+  <datafield tag="260" ind1=" " ind2=" ">
+    <subfield code="a">New York :</subfield>
+    <subfield code="b">Random House,</subfield>
+    <subfield code="c">[2002]</subfield>
+  </datafield>
+  <datafield tag="300" ind1=" " ind2=" ">
+    <subfield code="a">xvi, 365 p. :</subfield>
+    <subfield code="b">ill. (some col.), maps (some col.) ;</subfield>
+    <subfield code="c">26 cm.</subfield>
+  </datafield>
+  <datafield tag="500" ind1=" " ind2=" ">
+    <subfield code="a">Originally published: New York : Random House, c1980.</subfield>
+  </datafield>
+  <datafield tag="504" ind1=" " ind2=" ">
+    <subfield code="a">Includes bibliographical references (p. [350]-355) and index.</subfield>
+  </datafield>
+  <datafield tag="650" ind1=" " ind2="0">
+    <subfield code="a">Astronomy</subfield>
+    <subfield code="v">Popular works.</subfield>
+  </datafield>
+  <datafield tag="730" ind1="0" ind2=" ">
+    <subfield code="a">Cosmos (Television program)</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="2">
+    <subfield code="3">Contributor biographical information</subfield>
+    <subfield code="u">http://www.loc.gov/catdir/bios/random054/2002069744.html</subfield>
+  </datafield>
+  <datafield tag="856" ind1="4" ind2="2">
+    <subfield code="3">Publisher description</subfield>
+    <subfield code="u">http://www.loc.gov/catdir/description/random0411/2002069744.html</subfield>
+  </datafield>
+</record>
