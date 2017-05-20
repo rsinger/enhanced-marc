@@ -1,8 +1,9 @@
+# Methods for all/most record type
 module RecordType
 
   private
 
-  def is_govdoc?(human_readable = false)
+  def govdoc?(human_readable = false)
     govdoc_map = {
       'a' => 'Autonomous or semiautonomous components', 'c' => 'Multilocal',
       'f' => 'Federal', 'i' => 'International', 'l' => 'Local',
@@ -12,10 +13,10 @@ module RecordType
     human_readable = govdoc_map if human_readable
     field_parser(
       { match: /^BKS$|^COM$|^MAP$|^SER$|^VIS$/, start: 28, end: 1 },
-      { match: /[atmefsgkor]{1}/, start: 11, end: 1 },
-      human_readable
-    )
+      { match: /[atmefsgkor]{1}/, start: 11, end: 1 }, human_readable)
   end
+
+  alias is_govdoc? govdoc?
 
   def nature_of_contents(human_readable=false)
     cont_map = {'a'=>'Abstracts','b'=>'Bibliography','c'=>'Catalog','d'=>'Dictionary',
@@ -69,16 +70,17 @@ module RecordType
   end
 
 
-  def is_conference?
-    return true if self['008'].value[29,1] == '1' && @record_type.match(/^BKS$|^SER$/)
-    return true if self['008'].value[30,2].match(/c/) && @record_type.match(/^SCO$|^REC$/)
-    @fields.find_all {|f| ('006') === f.tag}.each { | fxd_fld |
-      return true if fxd_fld.value[12,1] == '1' && fxd_fld.value[0,1].match(/[ats]{1}/)
-
-      return true if fxd_fld.value[13,2].match(/c/) && fxd_fld.value[0,1].match(/[cdij]{1}/)
-    }
-    return false
+  def conference?
+    return true if self['008'].value[29, 1] == '1' && @record_type =~ /^BKS$|^SER$/
+    return true if self['008'].value[30, 2] =~ /c/ && @record_type =~ /^SCO$|^REC$/
+    @fields.each_by_tag('006') do |fxd_fld|
+      return true if fxd_fld.value[12, 1] == '1' && fxd_fld.value[0, 1] =~ /[ats]{1}/
+      return true if fxd_fld.value[13, 2] =~ /c/ && fxd_fld.value[0, 1] =~ /[cdij]{1}/
+    end
+    false
   end
+
+  alias is_conference? conference?
 
   def set_conference(value=false, field=nil)
     if field

@@ -11,25 +11,32 @@ module MARC
       self[20..23] = '4500'
     end
 
-    def get_type_code
+    def type_code
       self[6, 1]
     end
 
-    def get_blvl_code
+    alias get_type_code type_code
+
+    def blvl_code
       self[7, 1]
     end
 
-    def get_type
+    alias get_blvl_code blvl_code
+
+    def record_type
       type_translator(get_type_code, get_blvl_code)
     end
-    alias_method :record_type, :get_type
 
-    def is_archival?
+    alias get_type record_type
+
+    def archival?
       return true if self[8, 1] == 'a'
       false
     end
 
-    def get_blvl
+    alias is_archival? archival?
+
+    def blvl
       blvls = {
         'a' => 'Monographic component part',
         'b' => 'Serial component part',
@@ -41,9 +48,11 @@ module MARC
       }
       blvls[get_blvl_code]
     end
-    alias_method :bibliographic_level, :get_blvl
 
-    def set_type(type)
+    alias bibliographic_level blvl
+    alias get_blvl blvl
+
+    def record_type=(type)
       if type.length == 1
         translated_type = types(type)
         raise ArgumentError, 'Invalid Type' if translated_type.nil?
@@ -56,8 +65,10 @@ module MARC
       self[6] = type
     end
 
+    alias set_type record_type=
+
     def type_translator(type_code, blvl_code)
-      valid_types = ['a','t','g','k','r','o','p','e','f','c','d','i','j','m']
+      valid_types = %w[a t g k r o p e f c d i j m]
       raise ArgumentError, 'Invalid Type!' unless valid_types.index(type_code)
 
       rec_types = {
@@ -79,43 +90,41 @@ module MARC
       raise ArgumentError, 'Invalid BLvl!'
     end
 
-    def get_elvl_code
+    def elvl_code
       self[17, 1]
     end
+    alias get_elvl_code elvl_code
 
-    def get_elvl
-      elvls = {
-        ' ' => 'Full',
-        '1' => 'Full, not examined',
-        '2' => 'Less-than-full',
-        '3' => 'Abbreviated',
-        '4' => 'Core',
-        '5' => 'Partial',
-        '7' => 'Minimal',
-        '8' => 'Prepublication',
-        'I' => 'Full-level input by OCLC participants',
-        'K' => 'Less-than-full input by OCLC participants',
-        'L' => 'Full-level input added from a batch process',
-        'M' => 'Less-than-full added from a batch process',
-        'E' => 'System-identified MARC error in batchloaded record',
-        'J' => 'Deleted record'
-      }
+    def elvl
+      elvls = { ' ' => 'Full', '1' => 'Full, not examined',
+                '2' => 'Less-than-full', '3' => 'Abbreviated',
+                '4' => 'Core', '5' => 'Partial', '7' => 'Minimal',
+                '8' => 'Prepublication', 'J' => 'Deleted record',
+                'I' => 'Full-level input by OCLC participants',
+                'K' => 'Less-than-full input by OCLC participants',
+                'L' => 'Full-level input added from a batch process',
+                'M' => 'Less-than-full added from a batch process',
+                'E' => 'System-identified MARC error in batchloaded record' }
       elvls[get_elvl_code]
     end
-    alias_method :encoding_level, :get_elvl
-    alias_method :ELvl, :get_elvl
+    alias encoding_level elvl
+    alias ELvl elvl
+    alias get_elvl elvl
 
-    def get_desc_code
+    def desc_code
       self[18, 1]
     end
 
-    def get_desc
+    alias get_desc_code desc_code
+
+    def desc
       codes = {
         ' ' => 'Non-ISBD', 'a' => 'AACR2', 'i' => 'ISBD', 'u' => 'Unknown'
       }
       codes[get_desc_code]
     end
-    alias_method :descriptive_cataloging_form, :get_desc
-    alias_method :Desc, :get_desc
+    alias descriptive_cataloging_form desc
+    alias Desc desc
+    alias get_desc desc
   end
 end
