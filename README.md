@@ -1,4 +1,4 @@
-Enhanced MARC is a set of classes, modules and methods that sit on top of ruby-marc (http://rubyforge.org/projects/marc) to help parse the contents of MARC records more easily and conveniently.
+Enhanced MARC is a set of classes, modules and methods that sit on top of ruby-marc (https://github.com/ruby-marc/ruby-marc) to help parse the contents of MARC records more easily and conveniently.
 
 [![Build Status](https://travis-ci.org/rsinger/enhanced-marc.svg?branch=master)](https://travis-ci.org/rsinger/enhanced-marc)
 
