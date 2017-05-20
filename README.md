@@ -24,7 +24,7 @@ you'll need to do something like:
     records << record.to_typed_record
   end
 ```
-here
+for the same effect
 ```
   >> records[0].class
   => MARC::BookRecord
