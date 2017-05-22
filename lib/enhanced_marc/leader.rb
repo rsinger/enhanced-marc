@@ -73,7 +73,7 @@ module MARC
 
       rec_types = {
         'BKS' => { type: /[at]{1}/,	blvl: /[acdm]{1}/ },
-        'SER' => { type: /[a]{1}/,	blvl: /[bs]{1}/ },
+        'SER' => { type: /[a]{1}/,	blvl: /[bis]{1}/ },
         'VIS' => { type: /[gkro]{1}/,	blvl: /[abcdims]{1}/ },
         'MIX' => { type: /[p]{1}/,	blvl: /[cd]{1}/ },
         'MAP' => { type: /[ef]{1}/,	blvl: /[abcdims]{1}/ },

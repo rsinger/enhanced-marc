@@ -1,6 +1,10 @@
+# coding: utf-8
+lib = File.expand_path('../lib', __FILE__)
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+require 'enhanced_marc/version'
 Gem::Specification.new do |s|
   s.name = %q{enhanced_marc}
-  s.version = "0.3.1"
+  s.version = MARC::EnhancedMARC::VERSION
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ross Singer"]
